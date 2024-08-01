@@ -1,0 +1,16 @@
+[
+  {
+      "menu_item_id": "550e8400-e29b-41d4-a716-446655440006",
+      "menu_section_id": 1,
+      "item_name": "Spaghetti",
+      "note": "Contains gluten",
+      "price": 9.99
+  },
+  {
+      "menu_item_id": "550e8400-e29b-41d4-a716-446655440007",
+      "menu_section_id": 2,
+      "item_name": "Cheese Pizza",
+      "note": "Contains dairy",
+      "price": 9.99
+  }
+]

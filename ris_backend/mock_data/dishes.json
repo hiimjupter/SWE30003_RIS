@@ -1,0 +1,22 @@
+[
+  {
+      "dish_id": "550e8400-e29b-41d4-a716-446655440004",
+      "order_id": "550e8400-e29b-41d4-a716-446655440002",
+      "staff_id": "550e8400-e29b-41d4-a716-446655440001",
+      "menu_item_id": "550e8400-e29b-41d4-a716-446655440006",
+      "note": "Less spicy",
+      "quantity": 2,
+      "total": 19.98,
+      "is_ready": false
+  },
+  {
+      "dish_id": "550e8400-e29b-41d4-a716-446655440005",
+      "order_id": "550e8400-e29b-41d4-a716-446655440003",
+      "staff_id": "550e8400-e29b-41d4-a716-446655440001",
+      "menu_item_id": "550e8400-e29b-41d4-a716-446655440007",
+      "note": "Extra cheese",
+      "quantity": 1,
+      "total": 9.99,
+      "is_ready": false
+  }
+]
