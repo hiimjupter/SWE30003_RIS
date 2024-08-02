@@ -16,13 +16,15 @@ class UUID(TypeDecorator):
         if isinstance(value, uuid.UUID):
             # If the value is already a UUID, return its binary representation
             return value.bytes
+        if isinstance(value, bytes):
+            # If the value is already bytes, return it directly
+            return value
         return uuid.UUID(value).bytes
 
     def process_result_value(self, value, dialect):
         if value is None:
             return value
         return uuid.UUID(bytes=value)
-
 # Use the custom UUID type in your models
 
 
@@ -57,7 +59,8 @@ class Table(Base):
     __tablename__ = 'tables'
     table_id = Column(Integer, primary_key=True, index=True)
     capacity = Column(Integer, nullable=False)
-    is_available = Column(Boolean, default=True)
+    table_status = Column(Enum('vacant', 'reserved', 'eating',
+                               name='table_status'), nullable=False, default='vacant')
     orders = relationship("Order", back_populates="table")
 
 
@@ -88,7 +91,8 @@ class Dish(Base):
     note = Column(String, nullable=True)
     quantity = Column(Integer, nullable=False)
     total = Column(Float, nullable=False)
-    is_ready = Column(Boolean, default=False)
+    dish_status = Column(Enum('received', 'prepared', 'ready',
+                              name='dish_status'), nullable=False, default='received')
     order = relationship("Order", back_populates="dishes")
     chef = relationship("StaffAccount", back_populates="dishes",
                         primaryjoin="and_(Dish.staff_id == StaffAccount.staff_id, StaffAccount.role_id == 2)")

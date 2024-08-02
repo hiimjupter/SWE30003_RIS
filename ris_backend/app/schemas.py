@@ -1,6 +1,6 @@
 # This file is a serializer
 from pydantic import BaseModel, Field, ValidationError, conint, ConfigDict, field_validator
-from typing import List, Optional
+from typing import List, Optional, Dict
 from datetime import datetime, date
 from uuid import UUID
 from enum import Enum
@@ -14,6 +14,18 @@ class GenderEnum(str, Enum):
     others = "others"
 
 
+class TableStatusEnum(str, Enum):
+    vacant = 'vacant'
+    reserved = 'reserved'
+    eating = 'eating'
+
+
+class DishStatusEnum(str, Enum):
+    received = 'received'
+    prepared = 'prepared'
+    ready = 'ready'
+
+
 class Token(BaseModel):
     access_token: str
     token_type: str
@@ -21,11 +33,11 @@ class Token(BaseModel):
 
 class TokenData(BaseModel):
     username: Optional[str] = None
-    role_id: Optional[str] = None
 
 
 class User(BaseModel):
     role_id: conint(ge=0)
+    staff_id: UUID
     username: str
     full_name: str
     gender: GenderEnum
@@ -80,19 +92,23 @@ class StaffAccount(StaffAccountBase):
     model_config = ConfigDict(from_attributes=True)
 
 
+class TableStatusUpdate(BaseModel):
+    table_id: int
+
+
 class TableBase(BaseModel):
     capacity: conint(ge=2)
-    is_available: bool = True
-
-
-class TableCreate(TableBase):
-    pass
+    table_status: TableStatusEnum
 
 
 class Table(TableBase):
     table_id: conint(ge=0)
 
     model_config = ConfigDict(from_attributes=True)
+
+
+class TableCreate(TableBase):
+    pass
 
 
 class OrderBase(BaseModel):
@@ -124,8 +140,9 @@ class OrderBase(BaseModel):
     #     return value
 
 
-class OrderCreate(OrderBase):
-    pass
+class OrderCreate(BaseModel):
+    table_id: int
+    staff_id: UUID
 
 
 class Order(OrderBase):
@@ -184,8 +201,14 @@ class DishBase(BaseModel):
     #     return value
 
 
-class DishCreate(DishBase):
-    pass
+class DishCreate(BaseModel):
+    menu_item_id: UUID
+    quantity: conint(gt=0)
+
+
+class OrderWithDishesCreate(BaseModel):
+    table_id: conint(ge=0)
+    dishes: List[DishCreate]
 
 
 class Dish(DishBase):
@@ -194,23 +217,33 @@ class Dish(DishBase):
     model_config = ConfigDict(from_attributes=True)
 
 
+class OrderItemDetail(BaseModel):
+    item_name: str
+    quantity: int
+    price: float
+
+
+class OrderDetail(BaseModel):
+    order_id: UUID
+    items: List[OrderItemDetail]
+    created_at: datetime
+    is_served: bool
+
+
+class OrderUpdate(BaseModel):
+    order_id: UUID
+    table_id: int
+    is_served: bool
+
+    class Config:
+        orm_mode = True
+
+
 class MenuItemBase(BaseModel):
     item_name: str
     note: Optional[str] = None
     price: float
     menu_section_id: conint(ge=0)
-
-    # @field_validator('menu_section_id')
-    # def check_menu_section_exists(cls, value):
-    #     session: Session = SessionLocal()
-    #     result = session.execute(text(
-    #         "SELECT * FROM menu_sections WHERE menu_section_id = :menu_section_id"), {'menu_section_id': value})
-    #     menu_section = result.mappings().first()
-    #     session.close()
-    #     if not menu_section:
-    #         raise ValueError(
-    #             'menu_section_id must associate with an existing menu section')
-    #     return value
 
 
 class MenuItemCreate(MenuItemBase):
@@ -219,7 +252,6 @@ class MenuItemCreate(MenuItemBase):
 
 class MenuItem(MenuItemBase):
     menu_item_id: UUID
-
     model_config = ConfigDict(from_attributes=True)
 
 
