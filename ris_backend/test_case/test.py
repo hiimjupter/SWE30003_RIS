@@ -7,5 +7,5 @@ def get_password_hash(password):
     return pwd_context.hash(password)
 
 
-password = get_password_hash("Chef@123")
+password = get_password_hash("Manager@123")
 print(password)

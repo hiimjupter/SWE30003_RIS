@@ -25,7 +25,6 @@ class UUID(TypeDecorator):
         if value is None:
             return value
         return uuid.UUID(bytes=value)
-# Use the custom UUID type in your models
 
 
 class StaffRole(Base):
