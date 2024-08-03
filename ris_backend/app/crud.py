@@ -112,7 +112,7 @@ def get_menu_sections(db: Session):
     return db.query(models.MenuSection).all()
 
 
-def get_menu_items_by_sections(db: Session, menu_section_id: int):
+def get_menu_items_by_section(db: Session, menu_section_id: int):
     return db.query(models.MenuItem).filter(
         models.MenuItem.menu_section_id == menu_section_id).all()
 

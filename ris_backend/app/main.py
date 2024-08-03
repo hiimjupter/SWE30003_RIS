@@ -154,7 +154,6 @@ def update_table_status(update: schemas.TableStatusUpdate, current_user: schemas
 
     if table.table_status == "vacant":
         table.table_status = "reserved"
-
     else:
         raise HTTPException(
             status_code=400, detail="Only vacant table can be reserved")
@@ -164,17 +163,10 @@ def update_table_status(update: schemas.TableStatusUpdate, current_user: schemas
     return table
 
 
-@app.get("/users/waiter/tables/{table_id}/menu-items", response_model=List[schemas.MenuItem])
+@app.get("/users/waiter/tables/menu-items", response_model=List[schemas.MenuItem])
 # Get menu items for a specific table
-def get_menu_items(table_id: int, current_user: schemas.User = Depends(RoleChecker(allowed_roles=[1])), db: Session = Depends(get_db)):
-    table = crud.get_table(db, table_id)
-    if not table:
-        raise HTTPException(status_code=404, detail="Table not found")
-    elif table.table_status != "reserved":
-        raise HTTPException(
-            status_code=400, detail="Only reserved table can make order")
-    else:
-        menu_items = crud.get_menu_items(db)
+def get_menu_items(current_user: schemas.User = Depends(RoleChecker(allowed_roles=[1])), db: Session = Depends(get_db)):
+    menu_items = crud.get_menu_items(db)
     return menu_items
 
 
@@ -275,13 +267,25 @@ def update_order_status(
             detail=f"No unserved orders found for table_id {table_id}"
         )
 
-    # Update is_served status to True for each order
+    # Update is_served status to True for each order and change dishes' status to 'ready'
     updated_orders = []
     for order in orders:
         order.is_served = True
-        order.updated_at = datetime.utcnow()
         db.add(order)
+
+        # Fetch and update dishes for the order
+        dishes = db.query(models.Dish).filter(
+            models.Dish.order_id == order.order_id
+        ).all()
+
+        for dish in dishes:
+            dish.dish_status = "ready"
+            db.add(dish)
+
         updated_orders.append(order)
+
+    table = crud.get_table(db, table_id)
+    table.table_status = "vacant"
 
     db.commit()
 
@@ -354,11 +358,12 @@ def get_menu_sections(current_user: schemas.User = Depends(RoleChecker(allowed_r
 
     result = []
     for section in menu_sections:
-        items = crud.get_menu_items_by_sections(db, section.menu_section_id)
+        items = crud.get_menu_items_by_section(db, section.menu_section_id)
         # Convert SQLAlchemy models to Pydantic models
         pydantic_items = [schemas.MenuItem(
             **item.__dict__) for item in items]
         result.append(schemas.MenuSectionWithItems(
+            menu_section_id=section.menu_section_id,
             section_name=section.section_name,
             menu_items=pydantic_items
         ))

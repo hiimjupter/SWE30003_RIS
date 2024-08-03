@@ -181,6 +181,15 @@ class MenuItem(MenuItemBase):
 
     model_config = ConfigDict(from_attributes=True)
 
+
+class ItemBase(BaseModel):
+    menu_item_id: UUID
+    item_name: str
+    note: Optional[str] = None
+    price: float
+    model_config = ConfigDict(from_attributes=True)
+
+
 # ------------------------ MENU SECTION SCHEMAS ------------------------
 
 
@@ -200,6 +209,7 @@ class MenuSection(MenuSectionBase):
 
 
 class MenuSectionWithItems(MenuSectionBase):
-    menu_items: List[MenuItem]
+    menu_section_id: conint(ge=0)
+    menu_items: List[ItemBase]
 
     model_config = ConfigDict(from_attributes=True)
