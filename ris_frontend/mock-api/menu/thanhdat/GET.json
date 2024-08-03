@@ -1,0 +1,22 @@
+[
+    { "menu_item_id": "UUID1", "menu_section_id": 1, "item_name": "Beef Steak", "note": "Grilled to perfection", "price": 15.0 },
+    { "menu_item_id": "UUID2", "menu_section_id": 1, "item_name": "Chicken Alfredo", "note": "Creamy Alfredo sauce", "price": 13.5 },
+    { "menu_item_id": "UUID3", "menu_section_id": 1, "item_name": "Lasagna", "note": "Layers of pasta", "price": 14.0 },
+    { "menu_item_id": "UUID4", "menu_section_id": 1, "item_name": "Fish and Chips", "note": "Crispy fish with fries", "price": 12.0 },
+    { "menu_item_id": "UUID5", "menu_section_id": 1, "item_name": "Veggie Burger", "note": "Vegetarian delight", "price": 10.5 },
+    { "menu_item_id": "UUID6", "menu_section_id": 2, "item_name": "Greek Salad", "note": "Feta cheese and olives", "price": 9.0 },
+    { "menu_item_id": "UUID7", "menu_section_id": 2, "item_name": "Fruit Salad", "note": "Mixed seasonal fruits", "price": 7.5 },
+    { "menu_item_id": "UUID8", "menu_section_id": 2, "item_name": "Tuna Salad", "note": "Fresh tuna and greens", "price": 8.5 },
+    { "menu_item_id": "UUID9", "menu_section_id": 2, "item_name": "Chicken Salad", "note": "Grilled chicken and veggies", "price": 9.5 },
+    { "menu_item_id": "UUID10", "menu_section_id": 2, "item_name": "Pasta Salad", "note": "Pasta with fresh vegetables", "price": 7.0 },
+    { "menu_item_id": "UUID11", "menu_section_id": 3, "item_name": "Chocolate Cake", "note": "Rich chocolate flavor", "price": 5.0 },
+    { "menu_item_id": "UUID12", "menu_section_id": 3, "item_name": "Apple Pie", "note": "Homemade apple pie", "price": 4.5 },
+    { "menu_item_id": "UUID13", "menu_section_id": 3, "item_name": "Cheesecake", "note": "Creamy and delicious", "price": 6.0 },
+    { "menu_item_id": "UUID14", "menu_section_id": 3, "item_name": "Brownie", "note": "Fudgy chocolate brownie", "price": 4.0 },
+    { "menu_item_id": "UUID15", "menu_section_id": 3, "item_name": "Ice Cream Sundae", "note": "Vanilla ice cream with toppings", "price": 5.5 },
+    { "menu_item_id": "UUID16", "menu_section_id": 4, "item_name": "Coca-Cola", "note": "Chilled soda", "price": 2.5 },
+    { "menu_item_id": "UUID17", "menu_section_id": 4, "item_name": "Lemonade", "note": "Freshly squeezed lemon juice", "price": 3.0 },
+    { "menu_item_id": "UUID18", "menu_section_id": 4, "item_name": "Coffee", "note": "Freshly brewed coffee", "price": 2.0 },
+    { "menu_item_id": "UUID19", "menu_section_id": 4, "item_name": "Orange Juice", "note": "100% pure orange juice", "price": 3.5 },
+    { "menu_item_id": "UUID20", "menu_section_id": 4, "item_name": "Tea", "note": "Assorted tea flavors", "price": 1.5 }
+  ]

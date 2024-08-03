@@ -1,10 +1,10 @@
 "use client"
 import React, { useState, ChangeEvent } from 'react';
 
-const Home: React.FC = () => {
+const Chef: React.FC = () => {
     return (
         <></>
     );
 };
 
-export default Home;
+export default Chef;

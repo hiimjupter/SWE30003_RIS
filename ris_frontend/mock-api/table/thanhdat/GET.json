@@ -1,0 +1,17 @@
+[
+        { "table_id": 1, "capacity": 4, "table_status": "vacant" },
+        { "table_id": 2, "capacity": 2, "table_status": "reserved" },
+        { "table_id": 3, "capacity": 6, "table_status": "eating" },
+        { "table_id": 4, "capacity": 4, "table_status": "vacant" },
+        { "table_id": 5, "capacity": 2, "table_status": "vacant" },
+        { "table_id": 6, "capacity": 8, "table_status": "reserved" },
+        { "table_id": 7, "capacity": 6, "table_status": "vacant" },
+        { "table_id": 8, "capacity": 4, "table_status": "eating" },
+        { "table_id": 9, "capacity": 2, "table_status": "vacant" },
+        { "table_id": 10, "capacity": 6, "table_status": "vacant" },
+        { "table_id": 11, "capacity": 4, "table_status": "reserved" },
+        { "table_id": 12, "capacity": 8, "table_status": "vacant" },
+        { "table_id": 13, "capacity": 6, "table_status": "eating" },
+        { "table_id": 14, "capacity": 4, "table_status": "vacant" },
+        { "table_id": 15, "capacity": 2, "table_status": "reserved" }
+]
