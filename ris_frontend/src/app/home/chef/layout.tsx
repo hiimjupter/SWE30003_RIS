@@ -8,7 +8,7 @@ interface LayoutProps {
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
     return (
-        <Container>
+        <Container maxWidth="md">
             {children}
         </Container>
     );

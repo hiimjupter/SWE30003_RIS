@@ -3,12 +3,12 @@ import React from 'react';
 import { Container, AppBar, Toolbar, Typography } from '@mui/material';
 
 interface LayoutProps {
-    children: React.ReactNode;
+  children: React.ReactNode;
 }
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
     return (
-        <Container>
+        <Container maxWidth="md">
             {children}
         </Container>
     );
