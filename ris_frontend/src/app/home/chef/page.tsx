@@ -1,10 +1,21 @@
-"use client"
-import React, { useState, ChangeEvent } from 'react';
+'use client'
 
-const Chef: React.FC = () => {
-    return (
-        <></>
-    );
+import React, { useEffect } from 'react';
+import MenuComponent from '@/components/Manager/menu';
+import { useRedirectUser } from '@/utils/redirectUser';
+import DishesComponent from '@/components/Chef/dishes';
+
+const Waiter: React.FC = () => {
+    const { redirectUser } = useRedirectUser();
+
+    useEffect(() => {
+        redirectUser();
+    }, [redirectUser]);
+  return (
+    <div>
+      <DishesComponent />
+    </div>
+  );
 };
 
-export default Chef;
+export default Waiter;

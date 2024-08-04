@@ -23,25 +23,6 @@ const Login: React.FC = () => {
         }
     };
 
-    if (user) {
-        return (
-        <Container>
-            <Box display="flex" justifyContent="center" mt={5}>
-            <Card>
-                <CardContent>
-                <Typography variant="h5">Welcome, {user.full_name}</Typography>
-                <Typography>Username: {user.username}</Typography>
-                <Typography>Gender: {user.gender}</Typography>
-                <Typography>Date of Birth: {user.dob}</Typography>
-                <Typography>Created At: {user.created_at}</Typography>
-                <Typography>Active: {user.is_active ? 'Yes' : 'No'}</Typography>
-                </CardContent>
-            </Card>
-            </Box>
-        </Container>
-        );
-    }
-
     return (
         <Container>
         <Box display="flex" justifyContent="center" mt={25}>

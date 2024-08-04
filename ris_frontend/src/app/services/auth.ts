@@ -9,12 +9,14 @@ interface LoginResponse {
 }
 
 interface User {
-  username: string;
-  full_name: string;
-  gender: string;
-  dob: string;
-  created_at: string;
-  is_active: boolean;
+    role_id: number;
+    username: string;
+    full_name: string;
+    gender: string;
+    dob: string;
+    created_at: string;
+    is_active: boolean;
+
 }
 
 export async function login(username: string, password: string): Promise<void> {
@@ -31,16 +33,17 @@ export async function login(username: string, password: string): Promise<void> {
 }
 
 export async function getCurrentUser(): Promise<User> {
-  const token = localStorage.getItem('access_token');
-  if (!token) {
-    throw new Error('No token found');
-  }
-
-  const response = await axios.get<User>(`${API_URL}/users/waiter/`, {
-    headers: {
-      'Authorization': `Bearer ${token}`
+    const token = localStorage.getItem('access_token');
+    if (!token) {
+        throw new Error('No token found');
     }
-  });
 
+    const response = await axios.get<User>(`${API_URL}/users/me/`, {
+        headers: {
+        'Authorization': `Bearer ${token}`
+        }
+    });
+    const { role_id } = response.data;
+    localStorage.setItem('role_id', role_id.toString());
   return response.data;
 }
