@@ -36,7 +36,7 @@ export async function getCurrentUser(): Promise<User> {
     throw new Error('No token found');
   }
 
-  const response = await axios.get<User>(`${API_URL}/users/me/`, {
+  const response = await axios.get<User>(`${API_URL}/users/waiter/`, {
     headers: {
       'Authorization': `Bearer ${token}`
     }
