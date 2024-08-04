@@ -132,9 +132,9 @@ async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(
 # ------------------------ WAITER ENDPOINTS ------------------------
 
 
-@ app.get("/users/waiter", response_model=schemas.User)
+@ app.get("/users/me", response_model=schemas.User)
 # Get current waiter details
-def get_data(current_user: schemas.User = Depends(RoleChecker(allowed_roles=[1])), db: Session = Depends(get_db)):
+def get_data(current_user: schemas.User = Depends(RoleChecker(allowed_roles=[1, 2, 3])), db: Session = Depends(get_db)):
     return current_user
 
 
@@ -292,12 +292,6 @@ def update_order_status(
     return updated_orders
 
 # ------------------------ CHEF ENDPOINTS ------------------------
-
-
-@app.get("/users/chef", response_model=schemas.User)
-# Get current chef details
-def get_data(current_user: schemas.User = Depends(RoleChecker(allowed_roles=[2])), db: Session = Depends(get_db)):
-    return current_user
 
 
 @app.get("/users/chef/dishes", response_model=List[schemas.DishDisplay])
