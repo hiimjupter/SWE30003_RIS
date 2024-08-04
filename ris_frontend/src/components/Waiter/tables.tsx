@@ -1,9 +1,9 @@
 'use client'
 
-import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Table, TableBody, TableCell, TableContainer, TableRow, Button, Paper, Box, Typography, Modal, Backdrop, Fade, IconButton } from '@mui/material';
 import { Add, Remove } from '@mui/icons-material';
+import { fetchTableData, fetchMenuItems, updateTableStatus, createOrder, viewOrder, makePayment } from '@/app/services/waiter';
 
 interface TableData {
     table_id: number;
@@ -11,11 +11,17 @@ interface TableData {
     table_status: 'vacant' | 'reserved' | 'eating';
 }
 
+interface OrderItem {
+    item_name: string;
+    quantity: number;
+    price: number;
+}
+
 interface OrderData {
-    order_id: number;
-    table_id: number;
-    items: string[];
-    status: string;
+    order_id: string;
+    items: OrderItem[];
+    created_at: string;
+    is_served: boolean;
 }
 
 interface MenuItem {
@@ -36,36 +42,26 @@ const TablesComponent: React.FC = () => {
     const [orderItems, setOrderItems] = useState<{ [key: string]: number }>({});
 
     useEffect(() => {
-        const fetchTableData = async () => {
+        const loadData = async () => {
             try {
-                const response = await axios.get<TableData[]>('http://localhost:9000/api/table/thanhdat');
-                setData(response.data);
+                const tableData = await fetchTableData();
+                setData(tableData);
                 setError(null); // Clear previous errors if successful
             } catch (error) {
                 const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
                 setError(errorMessage);
                 console.error('Error fetching table data:', errorMessage);
             }
-        };
 
-        fetchTableData();
-    }, []);
-
-    useEffect(() => {
-        const fetchMenuItems = async () => {
             try {
-                const response = await axios.get('http://localhost:9000/api/menu/thanhdat');
-                console.log('Full response:', response);
-                // Check if data is an array or needs to be accessed differently
-                const menuData = Array.isArray(response.data) ? response.data : response.data.menuItems || [];
-                console.log('Menu items from response:', menuData);
-                setMenuItems(menuData);
+                const menuItemsData = await fetchMenuItems();
+                setMenuItems(menuItemsData);
             } catch (error) {
                 console.error('Error fetching menu items:', error);
             }
         };
 
-        fetchMenuItems();
+        loadData();
     }, []);
 
     const getButtonLabel = (status: string) => {
@@ -81,11 +77,16 @@ const TablesComponent: React.FC = () => {
         }
     };
 
-    const handleCheckIn = async (tableId: number) => {
+    const handleCheckIn = async (table_id: number) => {
         try {
-            await axios.put(`http://localhost:9000/api/tables/checkin/${tableId}`);
-            const response = await axios.get<TableData[]>('http://localhost:9000/api/table/thanhdat');
-            setData(response.data);
+            await updateTableStatus(table_id);
+            setData(prevData =>
+                prevData.map(table =>
+                    table.table_id === table_id
+                        ? { ...table, table_status: 'reserved' }
+                        : table
+                )
+            );
         } catch (error) {
             console.error('Error checking in:', error);
         }
@@ -99,10 +100,13 @@ const TablesComponent: React.FC = () => {
 
     const handleViewOrder = async (tableId: number) => {
         try {
-            const response = await axios.get<OrderData>(`http://localhost:9000/api/orders/${tableId}`);
-            setOrderData(response.data);
+            setSelectedTableId(tableId);
+            const fetchedOrderData = await viewOrder(tableId);
+            console.log('Fetched Order Data:', fetchedOrderData); 
+            setOrderData(fetchedOrderData);
             setOpen(true);
         } catch (error) {
+            setError('Failed to fetch order data.');
             console.error('Error fetching order data:', error);
         }
     };
@@ -119,7 +123,6 @@ const TablesComponent: React.FC = () => {
             [itemId]: (prevOrderItems[itemId] || 0) + 1,
         }));
         console.log('Order Items:', orderItems);
-
     };
 
     const handleDecrement = (itemId: string) => {
@@ -132,23 +135,40 @@ const TablesComponent: React.FC = () => {
     const handleSubmitOrder = async () => {
         if (selectedTableId !== null) {
             try {
-                await axios.post(`http://localhost:9000/api/order`, {
-                    table_id: selectedTableId,
-                    dishes: Object.entries(orderItems).map(([id, quantity]) => ({
-                        menu_item_id: id,
-                        quantity,
-                    })),
-                }, {
-                    headers: {
-                        'Content-Type': 'application/json',
-                    }
-                });
-                setOpen(false);
+                await createOrder(selectedTableId, orderItems); 
+                setData(prevData =>
+                    prevData.map(table =>
+                        table.table_id === selectedTableId
+                            ? { ...table, table_status: 'eating' }
+                            : table
+                    )
+                );
+                setOpen(false); 
             } catch (error) {
                 console.error('Error submitting order:', error);
             }
         }
     };
+
+    const handleMakePayment = async () => {
+        if (selectedTableId !== null) {
+            try {
+                await makePayment(selectedTableId);
+                setData(prevData =>
+                    prevData.map(table =>
+                        table.table_id === selectedTableId
+                            ? { ...table, table_status: 'vacant' }
+                            : table
+                    )
+                );
+                setOpen(false); 
+            } catch (error) {
+                console.error('Error making payment:', error);
+            }
+        }
+    };
+
+
 
     return (
         <Box mt={20} display="flex" justifyContent="center" sx={{ width: '100%' }}>
@@ -198,11 +218,21 @@ const TablesComponent: React.FC = () => {
                         </Typography>
                         <Box sx={{ mt: 2 }}>
                             {orderData ? (
-                                <ul>
-                                    {orderData.items.map((item) => (
-                                        <li key={item}>{item}</li>
-                                    ))}
-                                </ul>
+                                <Box>
+                                    <Typography variant="h6" sx={{ mb: 2,  color: 'black' }}>Order Details</Typography>
+                                    <Typography variant="subtitle1" sx={{ color: 'black' }}>Order ID: {orderData.order_id}</Typography>
+                                    <Typography variant="subtitle1" sx={{ color: 'black' }}>Created At: {new Date(orderData.created_at).toLocaleString()}</Typography>
+                                    <Typography variant="subtitle1" sx={{ color: 'black' }}>Is Served: {orderData.is_served ? 'Yes' : 'No'}</Typography>
+                                    <Typography variant="h6" sx={{ mt: 2,  color: 'black' }}>Items:</Typography>
+                                    <ul>
+                                        {orderData.items.map((item, index) => (
+                                            <li key={index}>
+                                                <Typography sx={{ color: 'black' }}><strong>{item.item_name}</strong> - Quantity: {item.quantity} - Price: ${item.price.toFixed(2)}</Typography>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                    <Button variant="contained" color="primary" onClick={handleMakePayment} sx={{ mt: 2 }}>Make Payment</Button>
+                                </Box>
                             ) : (
                                 <Box>
                                     {Array.isArray(menuItems) && menuItems.length > 0 ? (
