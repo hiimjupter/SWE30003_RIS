@@ -13,6 +13,7 @@
     "@emotion/styled": "^11.13.0",
     "@mui/icons-material": "^5.16.6",
     "@mui/material": "^5.16.6",
+    "@mui/styled-engine-sc": "^6.0.0-alpha.18",
     "@nextui-org/react": "^2.4.6",
     "axios": "^1.7.3",
     "cookie": "^0.6.0",
@@ -23,7 +24,8 @@
     "next": "14.2.5",
     "react": "^18",
     "react-dom": "^18",
-    "react-query": "^3.39.3"
+    "react-query": "^3.39.3",
+    "styled-components": "^6.1.12"
   },
   "devDependencies": {
     "@types/jsonwebtoken": "^9.0.6",
