@@ -102,7 +102,7 @@ const TablesComponent: React.FC = () => {
         try {
             setSelectedTableId(tableId);
             const fetchedOrderData = await viewOrder(tableId);
-            console.log('Fetched Order Data:', fetchedOrderData); 
+            console.log('Fetched Order Data:', fetchedOrderData);
             setOrderData(fetchedOrderData);
             setOpen(true);
         } catch (error) {
@@ -115,6 +115,7 @@ const TablesComponent: React.FC = () => {
         setOpen(false);
         setOrderData(null);
         setSelectedTableId(null);
+        setOrderItems({});
     };
 
     const handleIncrement = (itemId: string) => {
@@ -134,8 +135,14 @@ const TablesComponent: React.FC = () => {
 
     const handleSubmitOrder = async () => {
         if (selectedTableId !== null) {
+            const hasSelectedItems = Object.values(orderItems).some(quantity => quantity > 0);
+
+            if (!hasSelectedItems) {
+                alert('Please select at least one dish before submitting the order.');
+                return;
+            }
             try {
-                await createOrder(selectedTableId, orderItems); 
+                await createOrder(selectedTableId, orderItems);
                 setData(prevData =>
                     prevData.map(table =>
                         table.table_id === selectedTableId
@@ -143,7 +150,7 @@ const TablesComponent: React.FC = () => {
                             : table
                     )
                 );
-                setOpen(false); 
+                setOpen(false);
             } catch (error) {
                 console.error('Error submitting order:', error);
             }
@@ -161,14 +168,19 @@ const TablesComponent: React.FC = () => {
                             : table
                     )
                 );
-                setOpen(false); 
+                setOpen(false);
+                setOrderData(null);
+                setSelectedTableId(null);
+                setOrderItems({});
             } catch (error) {
                 console.error('Error making payment:', error);
             }
         }
     };
 
-
+    const calculateTotalPrice = (items: OrderItem[]) => {
+        return items.reduce((total, item) => total + item.price * item.quantity, 0);
+    };
 
     return (
         <Box mt={20} display="flex" justifyContent="center" sx={{ width: '100%' }}>
@@ -219,18 +231,19 @@ const TablesComponent: React.FC = () => {
                         <Box sx={{ mt: 2 }}>
                             {orderData ? (
                                 <Box>
-                                    <Typography variant="h6" sx={{ mb: 2,  color: 'black' }}>Order Details</Typography>
-                                    <Typography variant="subtitle1" sx={{ color: 'black' }}>Order ID: {orderData.order_id}</Typography>
-                                    <Typography variant="subtitle1" sx={{ color: 'black' }}>Created At: {new Date(orderData.created_at).toLocaleString()}</Typography>
-                                    <Typography variant="subtitle1" sx={{ color: 'black' }}>Is Served: {orderData.is_served ? 'Yes' : 'No'}</Typography>
-                                    <Typography variant="h6" sx={{ mt: 2,  color: 'black' }}>Items:</Typography>
+                                    <Typography variant="h6" sx={{ mb: 2 }}>Order Details</Typography>
+                                    <Typography variant="subtitle1">Order ID: {orderData.order_id}</Typography>
+                                    <Typography variant="subtitle1">Created At: {new Date(orderData.created_at).toLocaleString()}</Typography>
+                                    <Typography variant="subtitle1">Is Served: {orderData.is_served ? 'Yes' : 'No'}</Typography>
+                                    <Typography variant="h6" sx={{ mt: 2 }}>Items:</Typography>
                                     <ul>
                                         {orderData.items.map((item, index) => (
                                             <li key={index}>
-                                                <Typography sx={{ color: 'black' }}><strong>{item.item_name}</strong> - Quantity: {item.quantity} - Price: ${item.price.toFixed(2)}</Typography>
+                                                <Typography><strong>{item.item_name}</strong> - Quantity: {item.quantity} - Price: ${item.price.toFixed(2)}</Typography>
                                             </li>
                                         ))}
                                     </ul>
+                                    <Typography variant="h6" sx={{ mt: 2 }}>Total Price: ${calculateTotalPrice(orderData.items).toFixed(2)}</Typography>
                                     <Button variant="contained" color="primary" onClick={handleMakePayment} sx={{ mt: 2 }}>Make Payment</Button>
                                 </Box>
                             ) : (
@@ -239,10 +252,10 @@ const TablesComponent: React.FC = () => {
                                         <Box sx={{ maxHeight: 300, overflowY: 'auto' }}>
                                             {menuItems.map((item) => (
                                                 <Box key={item.menu_item_id} display="flex" justifyContent="space-between" alignItems="center" mb={2}>
-                                                    <Typography sx={{ color: 'black' }}>{item.item_name}</Typography>
+                                                    <Typography>{item.item_name}</Typography>
                                                     <Box display="flex" alignItems="center">
                                                         <IconButton onClick={() => handleDecrement(item.menu_item_id)}><Remove /></IconButton>
-                                                        <Typography sx={{ color: 'black' }}>{orderItems[item.menu_item_id] || 0}</Typography>
+                                                        <Typography>{orderItems[item.menu_item_id] || 0}</Typography>
                                                         <IconButton onClick={() => handleIncrement(item.menu_item_id)}><Add /></IconButton>
                                                     </Box>
                                                 </Box>

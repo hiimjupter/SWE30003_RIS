@@ -37,7 +37,8 @@ export async function fetchTableData(): Promise<TableData[]> {
     const token = localStorage.getItem('access_token');
     const response = await axios.get<TableData[]>(`${API_URL}/users/waiter/tables`, {
         headers: {
-        'Authorization': `Bearer ${token}`
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
         }
     });
     return response.data;
@@ -47,7 +48,8 @@ export async function fetchMenuItems(): Promise<MenuItem[]> {
     const token = localStorage.getItem('access_token');
     const response = await axios.get(`${API_URL}/users/waiter/tables/menu-items`, {
         headers: {
-        'Authorization': `Bearer ${token}`
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
         }
     });
     const menuData = Array.isArray(response.data) ? response.data : response.data.menuItems || [];
@@ -57,7 +59,7 @@ export async function fetchMenuItems(): Promise<MenuItem[]> {
 export async function updateTableStatus(table_id: number): Promise<void> {
     const token = localStorage.getItem('access_token');
         await axios.put(`${API_URL}/users/waiter/tables/reserve`, 
-            { table_id }, // Include any necessary payload
+            { table_id },
             {
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -115,12 +117,13 @@ export async function viewOrder(selectedTableId: number): Promise<OrderData> {
 
 export async function makePayment(table_id: number): Promise<void> {
     const token = localStorage.getItem('access_token');
-        await axios.put(`${API_URL}/users/waiter/orders/{tables_id}/serve`,
+        await axios.put(`${API_URL}/users/waiter/orders/${table_id}/serve`,
+            {},
             {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
-                }
+                },
             }
         );
 }

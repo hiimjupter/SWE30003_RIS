@@ -1,10 +1,21 @@
-"use client"
-import React, { useState, ChangeEvent } from 'react';
+'use client'
 
-const Manager: React.FC = () => {
-    return (
-            <></>
-    );
-};  
+import React, { useEffect } from 'react';
+import TableComponent from '../../../components/Waiter/tables';
+import MenuComponent from '@/components/Manager/menu';
+import { useRedirectUser } from '@/utils/redirectUser';
 
-export default Manager;
+const Waiter: React.FC = () => {
+    const { redirectUser } = useRedirectUser();
+
+    useEffect(() => {
+        redirectUser();
+    }, [redirectUser]);
+  return (
+    <div>
+      <MenuComponent />
+    </div>
+  );
+};
+
+export default Waiter;
