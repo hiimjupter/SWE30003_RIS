@@ -88,7 +88,10 @@ password: Manager@123
 ```
 
 ## IV. Run Test Cases
-### 1. Go to *backend* folder: `cd ris_backend`
+### 1. Go to *backend* folder:
+```
+cd ris_backend
+```
 ### 2. Run test cases:
 - For login testcase, run:
 ```bash
