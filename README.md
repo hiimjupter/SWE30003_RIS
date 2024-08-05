@@ -2,6 +2,7 @@
 
 ## I. Introduction
 
+- **Institution**: Swinburne Vietnam - Computer Science
 - **Team name**: The Software Architect (Group 1)
 - **Course code**: SWE30003
 - **Course name**: Software Architecture and Design
@@ -41,18 +42,18 @@ git clone https://github.com/hiimjupter/SWE30003_RIS.git
 - Backend setup:
     - Begin at the *root* terminal of the folder.
     - Navigate to the *backend* folder: `cd ris_backend`
-    - Install dependencies: `pip install -r requirements.txt`
 ![Illustration](/static/backend.png)
+    - Install dependencies: `pip install -r requirements.txt`
 - Frontend setup:
     - Begin at the *root* terminal of the folder.
     - Navigate to the *frontend* folder: `cd ris_frontend`
+![Illustration](/static/frontend.png)
     - Install dependencies:
 ```bash
 npm install @mui/material @emotion/react @emotion/styled
 npm install @mui/material @mui/styled-engine-sc styled-components
 npm i axios
 ```
-![Illustration](/static/frontend.png)
 
 ## III. Run the App
 ### 1. Initiate Server:
