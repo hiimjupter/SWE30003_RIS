@@ -87,7 +87,27 @@ username: manager
 password: Manager@123
 ```
 
-## IV. Main Authors:
+## IV. Run Test Cases
+### 1. Go to *backend* folder: `cd ris_backend`
+### 2. Run test cases:
+- For login testcase, run:
+```bash
+pytest test_case/test_auth.py
+```
+- For waiter testcase, run:
+```bash
+pytest test_case/test_waiter.py
+```
+- For chef testcase, run:
+```bash
+pytest test_case/test_chef.py
+```
+- For manager testcase, run:
+```bash
+pytest test_case/test_manager.py
+```
+
+## V. Main Authors:
 1. Hilton Nguyen: 103488337@student.swin.edu.au
 2. Dajit Ngo: 104169057@student.swin.edu.au
 3. Fatfat Chau: 104055677@student.swin.edu.au
