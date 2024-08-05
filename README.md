@@ -86,3 +86,9 @@ password: Chef@123
 username: manager
 password: Manager@123
 ```
+
+## IV. Main Authors:
+### 1. Hilton Nguyen: 103488337@student.swin.edu.au
+### 2. Dajit Ngo: 104169057@student.swin.edu.au
+### 3. Fatfat Chau: 104055677@student.swin.edu.au
+### 4. Min Truong: 103845039@student.swin.edu.au
