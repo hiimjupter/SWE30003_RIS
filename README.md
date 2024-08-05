@@ -71,17 +71,17 @@ npm run dev
 ```bash
 localhost:3000
 ```
-    - For waiter interface, use:
+- For waiter interface, use:
 ```bash
 username: waiter
 password: Waiter@123
 ```
-    - For chef interface, use:
+- For chef interface, use:
 ```bash
 username: chef
 password: Chef@123
 ```
-    - For manager interface, use:
+- For manager interface, use:
 ```bash
 username: manager
 password: Manager@123
