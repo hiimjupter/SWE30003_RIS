@@ -1,0 +1,12 @@
+[
+  {
+      "table_id": 1,
+      "capacity": 4,
+      "is_available": true
+  },
+  {
+      "table_id": 2,
+      "capacity": 2,
+      "is_available": true
+  }
+]
