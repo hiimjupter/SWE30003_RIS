@@ -34,6 +34,7 @@ git clone https://github.com/hiimjupter/SWE30003_RIS.git
 ![Illustration](/static/set_con.png)
 
 ### 3. Install Dependencies
+- Make sure you have Python and Pip package on device
 - Open two terminals:
     - One for the backend
     - One for the frontend
