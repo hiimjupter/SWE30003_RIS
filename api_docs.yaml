@@ -1,0 +1,855 @@
+openapi: 3.1.0
+info:
+  title: FastAPI[SWE30003_RIS]
+  version: 1.0.0-oas3.1
+paths:
+  /login:
+    post:
+      summary: Login For Access Token
+      operationId: login_for_access_token_login_post
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Body_login_for_access_token_login_post'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Token'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /users/me:
+    get:
+      summary: Get Data
+      operationId: get_data_users_me_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+      security:
+        - OAuth2PasswordBearer: []
+  /users/waiter/tables:
+    get:
+      summary: Get Tables
+      operationId: get_tables_users_waiter_tables_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Table'
+                type: array
+                title: Response Get Tables Users Waiter Tables Get
+      security:
+        - OAuth2PasswordBearer: []
+  /users/waiter/tables/reserve:
+    put:
+      summary: Update Table Status
+      operationId: update_table_status_users_waiter_tables_reserve_put
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TableStatusUpdate'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Table'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+        - OAuth2PasswordBearer: []
+  /users/waiter/tables/menu-items:
+    get:
+      summary: Get Menu Items
+      operationId: get_menu_items_users_waiter_tables_menu_items_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/MenuItem'
+                type: array
+                title: Response Get Menu Items Users Waiter Tables Menu Items Get
+      security:
+        - OAuth2PasswordBearer: []
+  /users/waiter/create-order:
+    post:
+      summary: Create Order With Dishes
+      operationId: create_order_with_dishes_users_waiter_create_order_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderWithDishesCreate'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+        - OAuth2PasswordBearer: []
+  /users/waiter/tables/{table_id}/order:
+    get:
+      summary: Get Order Details
+      operationId: get_order_details_users_waiter_tables__table_id__order_get
+      security:
+        - OAuth2PasswordBearer: []
+      parameters:
+        - name: table_id
+          in: path
+          required: true
+          schema:
+            type: integer
+            title: Table Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderDetail'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /users/waiter/orders/{table_id}/serve:
+    put:
+      summary: Update Order Status
+      operationId: update_order_status_users_waiter_orders__table_id__serve_put
+      security:
+        - OAuth2PasswordBearer: []
+      parameters:
+        - name: table_id
+          in: path
+          required: true
+          schema:
+            type: integer
+            title: Table Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OrderUpdate'
+                title: >-
+                  Response Update Order Status Users Waiter Orders  Table Id
+                  Serve Put
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /users/chef/dishes:
+    get:
+      summary: Get Dishes
+      operationId: get_dishes_users_chef_dishes_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/DishDisplay'
+                type: array
+                title: Response Get Dishes Users Chef Dishes Get
+      security:
+        - OAuth2PasswordBearer: []
+  /users/chef/dishes/status-update:
+    put:
+      summary: Update Dish Status
+      operationId: update_dish_status_users_chef_dishes_status_update_put
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DishStatusUpdate'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dish'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+        - OAuth2PasswordBearer: []
+  /users/manager/menu-sections:
+    get:
+      summary: Get Menu Sections
+      operationId: get_menu_sections_users_manager_menu_sections_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/MenuSectionWithItems'
+                type: array
+                title: Response Get Menu Sections Users Manager Menu Sections Get
+      security:
+        - OAuth2PasswordBearer: []
+    post:
+      summary: Create Menu Section
+      operationId: create_menu_section_users_manager_menu_sections_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MenuSectionCreate'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MenuSection'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+        - OAuth2PasswordBearer: []
+  /users/manager/menu-items:
+    post:
+      summary: Create Menu Item
+      operationId: create_menu_item_users_manager_menu_items_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MenuItemCreate'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MenuItem'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+        - OAuth2PasswordBearer: []
+  /users/manager/menu-sections/{menu_section_id}/delete:
+    delete:
+      summary: Delete Menu Section
+      operationId: >-
+        delete_menu_section_users_manager_menu_sections__menu_section_id__delete_delete
+      security:
+        - OAuth2PasswordBearer: []
+      parameters:
+        - name: menu_section_id
+          in: path
+          required: true
+          schema:
+            type: integer
+            title: Menu Section Id
+      responses:
+        '204':
+          description: Successful Response
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /users/manager/menu-items/{menu_item_id}/delete:
+    delete:
+      summary: Delete Menu Item
+      operationId: delete_menu_item_users_manager_menu_items__menu_item_id__delete_delete
+      security:
+        - OAuth2PasswordBearer: []
+      parameters:
+        - name: menu_item_id
+          in: path
+          required: true
+          schema:
+            type: string
+            title: Menu Item Id
+      responses:
+        '204':
+          description: Successful Response
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /users/manager/menu-items/{menu_item_id}:
+    put:
+      summary: Update Menu Item
+      operationId: update_menu_item_users_manager_menu_items__menu_item_id__put
+      security:
+        - OAuth2PasswordBearer: []
+      parameters:
+        - name: menu_item_id
+          in: path
+          required: true
+          schema:
+            type: string
+            title: Menu Item Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MenuItemCreate'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MenuItem'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    Body_login_for_access_token_login_post:
+      properties:
+        grant_type:
+          anyOf:
+            - type: string
+              pattern: password
+            - type: 'null'
+          title: Grant Type
+        username:
+          type: string
+          title: Username
+        password:
+          type: string
+          title: Password
+        scope:
+          type: string
+          title: Scope
+          default: ''
+        client_id:
+          anyOf:
+            - type: string
+            - type: 'null'
+          title: Client Id
+        client_secret:
+          anyOf:
+            - type: string
+            - type: 'null'
+          title: Client Secret
+      type: object
+      required:
+        - username
+        - password
+      title: Body_login_for_access_token_login_post
+    Dish:
+      properties:
+        order_id:
+          type: string
+          format: uuid
+          title: Order Id
+        staff_id:
+          type: string
+          format: uuid
+          title: Staff Id
+        menu_item_id:
+          type: string
+          format: uuid
+          title: Menu Item Id
+        note:
+          anyOf:
+            - type: string
+            - type: 'null'
+          title: Note
+        quantity:
+          type: integer
+          exclusiveMinimum: 0
+          title: Quantity
+        total:
+          type: number
+          title: Total
+        dish_status:
+          $ref: '#/components/schemas/DishStatusEnum'
+        dish_id:
+          type: string
+          format: uuid
+          title: Dish Id
+      type: object
+      required:
+        - order_id
+        - staff_id
+        - menu_item_id
+        - quantity
+        - total
+        - dish_status
+        - dish_id
+      title: Dish
+    DishCreate:
+      properties:
+        menu_item_id:
+          type: string
+          format: uuid
+          title: Menu Item Id
+        quantity:
+          type: integer
+          exclusiveMinimum: 0
+          title: Quantity
+      type: object
+      required:
+        - menu_item_id
+        - quantity
+      title: DishCreate
+    DishDisplay:
+      properties:
+        dish_id:
+          type: string
+          format: uuid
+          title: Dish Id
+        order_id:
+          type: string
+          format: uuid
+          title: Order Id
+        table_id:
+          type: integer
+          title: Table Id
+        item_name:
+          type: string
+          title: Item Name
+        quantity:
+          type: integer
+          title: Quantity
+        dish_status:
+          $ref: '#/components/schemas/DishStatusEnum'
+      type: object
+      required:
+        - dish_id
+        - order_id
+        - table_id
+        - item_name
+        - quantity
+        - dish_status
+      title: DishDisplay
+    DishStatusEnum:
+      type: string
+      enum:
+        - received
+        - prepared
+        - ready
+      title: DishStatusEnum
+    DishStatusUpdate:
+      properties:
+        dish_id:
+          type: string
+          format: uuid
+          title: Dish Id
+      type: object
+      required:
+        - dish_id
+      title: DishStatusUpdate
+    GenderEnum:
+      type: string
+      enum:
+        - male
+        - female
+        - others
+      title: GenderEnum
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ItemBase:
+      properties:
+        menu_item_id:
+          type: string
+          format: uuid
+          title: Menu Item Id
+        item_name:
+          type: string
+          title: Item Name
+        note:
+          anyOf:
+            - type: string
+            - type: 'null'
+          title: Note
+        price:
+          type: number
+          title: Price
+      type: object
+      required:
+        - menu_item_id
+        - item_name
+        - price
+      title: ItemBase
+    MenuItem:
+      properties:
+        item_name:
+          type: string
+          title: Item Name
+        note:
+          anyOf:
+            - type: string
+            - type: 'null'
+          title: Note
+        price:
+          type: number
+          title: Price
+        menu_section_id:
+          type: integer
+          minimum: 0
+          title: Menu Section Id
+        menu_item_id:
+          type: string
+          format: uuid
+          title: Menu Item Id
+      type: object
+      required:
+        - item_name
+        - price
+        - menu_section_id
+        - menu_item_id
+      title: MenuItem
+    MenuItemCreate:
+      properties:
+        item_name:
+          type: string
+          title: Item Name
+        note:
+          anyOf:
+            - type: string
+            - type: 'null'
+          title: Note
+        price:
+          type: number
+          title: Price
+        menu_section_id:
+          type: integer
+          minimum: 0
+          title: Menu Section Id
+      type: object
+      required:
+        - item_name
+        - price
+        - menu_section_id
+      title: MenuItemCreate
+    MenuSection:
+      properties:
+        section_name:
+          type: string
+          title: Section Name
+        menu_section_id:
+          type: integer
+          minimum: 0
+          title: Menu Section Id
+      type: object
+      required:
+        - section_name
+        - menu_section_id
+      title: MenuSection
+    MenuSectionCreate:
+      properties:
+        section_name:
+          type: string
+          title: Section Name
+      type: object
+      required:
+        - section_name
+      title: MenuSectionCreate
+    MenuSectionWithItems:
+      properties:
+        section_name:
+          type: string
+          title: Section Name
+        menu_section_id:
+          type: integer
+          minimum: 0
+          title: Menu Section Id
+        menu_items:
+          items:
+            $ref: '#/components/schemas/ItemBase'
+          type: array
+          title: Menu Items
+      type: object
+      required:
+        - section_name
+        - menu_section_id
+        - menu_items
+      title: MenuSectionWithItems
+    Order:
+      properties:
+        table_id:
+          type: integer
+          minimum: 0
+          title: Table Id
+        staff_id:
+          type: string
+          format: uuid
+          title: Staff Id
+        is_served:
+          type: boolean
+          title: Is Served
+          default: false
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+        order_id:
+          type: string
+          format: uuid
+          title: Order Id
+      type: object
+      required:
+        - table_id
+        - staff_id
+        - created_at
+        - order_id
+      title: Order
+    OrderDetail:
+      properties:
+        order_id:
+          type: string
+          format: uuid
+          title: Order Id
+        items:
+          items:
+            $ref: '#/components/schemas/OrderItemDetail'
+          type: array
+          title: Items
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+        is_served:
+          type: boolean
+          title: Is Served
+      type: object
+      required:
+        - order_id
+        - items
+        - created_at
+        - is_served
+      title: OrderDetail
+    OrderItemDetail:
+      properties:
+        item_name:
+          type: string
+          title: Item Name
+        quantity:
+          type: integer
+          title: Quantity
+        price:
+          type: number
+          title: Price
+      type: object
+      required:
+        - item_name
+        - quantity
+        - price
+      title: OrderItemDetail
+    OrderUpdate:
+      properties:
+        order_id:
+          type: string
+          format: uuid
+          title: Order Id
+        table_id:
+          type: integer
+          title: Table Id
+        is_served:
+          type: boolean
+          title: Is Served
+      type: object
+      required:
+        - order_id
+        - table_id
+        - is_served
+      title: OrderUpdate
+    OrderWithDishesCreate:
+      properties:
+        table_id:
+          type: integer
+          minimum: 0
+          title: Table Id
+        dishes:
+          items:
+            $ref: '#/components/schemas/DishCreate'
+          type: array
+          title: Dishes
+      type: object
+      required:
+        - table_id
+        - dishes
+      title: OrderWithDishesCreate
+    Table:
+      properties:
+        capacity:
+          type: integer
+          minimum: 2
+          title: Capacity
+        table_status:
+          $ref: '#/components/schemas/TableStatusEnum'
+        table_id:
+          type: integer
+          minimum: 0
+          title: Table Id
+      type: object
+      required:
+        - capacity
+        - table_status
+        - table_id
+      title: Table
+    TableStatusEnum:
+      type: string
+      enum:
+        - vacant
+        - reserved
+        - eating
+      title: TableStatusEnum
+    TableStatusUpdate:
+      properties:
+        table_id:
+          type: integer
+          title: Table Id
+      type: object
+      required:
+        - table_id
+      title: TableStatusUpdate
+    Token:
+      properties:
+        access_token:
+          type: string
+          title: Access Token
+        token_type:
+          type: string
+          title: Token Type
+      type: object
+      required:
+        - access_token
+        - token_type
+      title: Token
+    User:
+      properties:
+        role_id:
+          type: integer
+          minimum: 0
+          title: Role Id
+        staff_id:
+          type: string
+          format: uuid
+          title: Staff Id
+        username:
+          type: string
+          title: Username
+        full_name:
+          type: string
+          title: Full Name
+        gender:
+          $ref: '#/components/schemas/GenderEnum'
+        dob:
+          type: string
+          format: date
+          title: Dob
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+        is_active:
+          type: boolean
+          title: Is Active
+          default: true
+      type: object
+      required:
+        - role_id
+        - staff_id
+        - username
+        - full_name
+        - gender
+        - dob
+        - created_at
+      title: User
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+              - type: string
+              - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+        - loc
+        - msg
+        - type
+      title: ValidationError
+  securitySchemes:
+    OAuth2PasswordBearer:
+      type: oauth2
+      flows:
+        password:
+          scopes: {}
+          tokenUrl: login
