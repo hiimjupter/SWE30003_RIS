@@ -1,4 +1,4 @@
-CREATE SCHEMA ‘SWE30003_RIS’ ;
+CREATE DATABASE SWE30003_RIS ;
 
 USE SWE30003_RIS;
 
@@ -91,14 +91,14 @@ INSERT INTO staff_accounts (staff_id, role_id, username, password, full_name, ge
 INSERT INTO tables (table_id, capacity, table_status) VALUES
 (1, 4, 'vacant'),
 (2, 4, 'reserved'),
-(3, 4, 'eating'),
+(3, 4, 'eating');
 
 -- Insert data into menu_sections
-INSERT INTO menu_sections (menu_section_id, section_name) VALUES
-(1, 'Main Courses'),
-(2, 'Salads'),
-(3, 'Desserts'),
-(4, 'Drinks');
+INSERT INTO menu_sections (section_name) VALUES
+('Main Courses'),
+('Salads'),
+('Desserts'),
+('Drinks');
 
 -- Insert data into menu-items
 INSERT INTO menu_items (menu_item_id, menu_section_id, item_name, note, price) VALUES
@@ -125,11 +125,11 @@ INSERT INTO menu_items (menu_item_id, menu_section_id, item_name, note, price) V
 (UUID_TO_BIN('550e8400-e29b-41d4-a716-446655440019'), 4, 'Lemonade', 'Freshly squeezed lemonade', 1.50),
 (UUID_TO_BIN('550e8400-e29b-41d4-a716-446655440020'), 4, 'Iced Tea', 'Chilled brewed tea with lemon', 1.75),
 (UUID_TO_BIN('550e8400-e29b-41d4-a716-446655440021'), 4, 'Orange Juice', 'Freshly squeezed orange juice', 2.00),
-(UUID_TO_BIN('550e8400-e29b-41d4-a716-446655440022'), 4, 'Mojito', 'Alcohol-free juice', 2.55),
+(UUID_TO_BIN('550e8400-e29b-41d4-a716-446655440022'), 4, 'Mojito', 'Alcohol-free juice', 2.55);
 
 -- Insert data into orders
 INSERT INTO orders (order_id, table_id, staff_id, is_served, created_at) VALUES
-(UUID_TO_BIN('550e8400-e29b-41d4-a716-446655440023'), 3, UUID_TO_BIN('550e8400-e29b-41d4-a716-446655440000'), FALSE, '2024-07-30 00:00:00'),
+(UUID_TO_BIN('550e8400-e29b-41d4-a716-446655440023'), 3, UUID_TO_BIN('550e8400-e29b-41d4-a716-446655440000'), FALSE, '2024-07-30 00:00:00');
 
 -- Insert data into dishes
 INSERT INTO dishes (dish_id, order_id, staff_id, menu_item_id, note, quantity, total, dish_status) VALUES

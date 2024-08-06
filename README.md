@@ -22,14 +22,12 @@ git clone https://github.com/hiimjupter/SWE30003_RIS.git
 - Install MySQL Community Server:
     - Download and install from [MySQL Community Server](https://dev.mysql.com/downloads/mysql/)
     - Save your username and password.
-- Install MySQL Workbench:
-    - Download and install from [MySQL Workbench](https://dev.mysql.com/downloads/workbench/)
-- Login to Database:
-    - Use the username and password configured during the `MySQL Community server` installation and login into `MySQL Workbench`
-![Illustration](/static/login.png)
-- Create Schema, Database, and Seed Data
-    - Copy the SQL code from the `ini.sql` file in the repository and paste it into the MySQL Workbench
-![Illustration](/static/ini.png)
+- Go to `root` terminal of the code:
+    ```
+    mysql -u [username] -p --> Enter your password
+    source init.sql
+    ```
+![Illustration](/static/init.png)
 - Configure `.env` file:
     - Direct to *backend folder* using terminal: `cd ris_backend`
     - Swap the username and the password as your database configuration.
