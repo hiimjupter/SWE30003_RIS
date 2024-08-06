@@ -1,5 +1,5 @@
 # This file is a data validator / serializer in Django
-from pydantic import BaseModel, Field, ValidationError, conint, ConfigDict, field_validator
+from pydantic import BaseModel, Field, ValidationError, conint, confloat, ConfigDict, field_validator
 from typing import List, Optional, Dict
 from datetime import datetime, date
 from uuid import UUID
@@ -57,7 +57,7 @@ class UserInDB(User):
 
 
 class TableStatusUpdate(BaseModel):
-    table_id: int
+    table_id: conint(ge=0)
 
 
 class TableBase(BaseModel):
@@ -81,7 +81,7 @@ class OrderBase(BaseModel):
 
 
 class OrderCreate(BaseModel):
-    table_id: int
+    table_id: conint(ge=0)
     staff_id: UUID
 
 
@@ -93,8 +93,8 @@ class Order(OrderBase):
 
 class OrderItemDetail(BaseModel):
     item_name: str
-    quantity: int
-    price: float
+    quantity: conint(ge=0)
+    price: confloat(ge=0)
 
 
 class OrderDetail(BaseModel):
@@ -106,7 +106,7 @@ class OrderDetail(BaseModel):
 
 class OrderUpdate(BaseModel):
     order_id: UUID
-    table_id: int
+    table_id: conint(ge=0)
     is_served: bool
 
     model_config = ConfigDict(from_attributes=True)
@@ -149,9 +149,9 @@ class Dish(DishBase):
 class DishDisplay(BaseModel):
     dish_id: UUID
     order_id: UUID
-    table_id: int
+    table_id: conint(ge=0)
     item_name: str
-    quantity: int
+    quantity: conint(ge=0)
     dish_status: DishStatusEnum
 
     model_config = ConfigDict(from_attributes=True)
@@ -166,7 +166,7 @@ class DishStatusUpdate(BaseModel):
 class MenuItemBase(BaseModel):
     item_name: str
     note: Optional[str] = None
-    price: float
+    price: confloat(ge=0)
     menu_section_id: conint(ge=0)
 
     model_config = ConfigDict(from_attributes=True)
@@ -186,7 +186,7 @@ class ItemBase(BaseModel):
     menu_item_id: UUID
     item_name: str
     note: Optional[str] = None
-    price: float
+    price: confloat(ge=0)
     model_config = ConfigDict(from_attributes=True)
 
 

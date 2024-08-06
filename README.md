@@ -22,20 +22,19 @@ git clone https://github.com/hiimjupter/SWE30003_RIS.git
 - Install MySQL Community Server:
     - Download and install from [MySQL Community Server](https://dev.mysql.com/downloads/mysql/)
     - Save your username and password.
-- Install MySQL Workbench:
-    - Download and install from [MySQL Workbench](https://dev.mysql.com/downloads/workbench/)
-- Login to Database:
-    - Use the username and password configured during the `MySQL Community server` installation and login into `MySQL Workbench`
-![Illustration](/static/login.png)
-- Create Schema, Database, and Seed Data
-    - Copy the SQL code from the `ini.sql` file in the repository and paste it into the MySQL Workbench
-![Illustration](/static/ini.png)
+- Go to `root` terminal of the code:
+    ```
+    mysql -u [username] -p --> Enter your password
+    source init.sql
+    ```
+![Illustration](/static/init.png)
 - Configure `.env` file:
     - Direct to *backend folder* using terminal: `cd ris_backend`
     - Swap the username and the password as your database configuration.
 ![Illustration](/static/set_con.png)
 
 ### 3. Install Dependencies
+- Make sure you have Python and Pip package on device
 - Open two terminals:
     - One for the backend
     - One for the frontend
@@ -87,7 +86,30 @@ username: manager
 password: Manager@123
 ```
 
-## IV. Main Authors:
+## IV. Run Test Cases
+### 1. Go to *backend* folder:
+```
+cd ris_backend
+```
+### 2. Run test cases:
+- For login testcase, run:
+```bash
+pytest test_case/test_auth.py
+```
+- For waiter testcase, run:
+```bash
+pytest test_case/test_waiter.py
+```
+- For chef testcase, run:
+```bash
+pytest test_case/test_chef.py
+```
+- For manager testcase, run:
+```bash
+pytest test_case/test_manager.py
+```
+
+## V. Main Authors:
 1. Hilton Nguyen: 103488337@student.swin.edu.au
 2. Dajit Ngo: 104169057@student.swin.edu.au
 3. Fatfat Chau: 104055677@student.swin.edu.au
